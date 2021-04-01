@@ -27,7 +27,7 @@ int DFSb(int v, int p = -1)
             if(pCnt < 2) continue;
         }
 
-        if( !vis[n] )
+        if( !vis[n] ) 
             low = min( low, DFSb(n , v) ); //take low from son
         else
             low = min( low, DFSdt[n] ); // take low from back edge
@@ -58,5 +58,5 @@ int main()
     cout << endl;
     for(int i = 0; i < ans.size(); i++)
         cout << ans[i].first << " " << ans[i].second << endl;
-
+    return 0;
 }
