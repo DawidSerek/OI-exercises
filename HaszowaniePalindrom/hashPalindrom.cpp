@@ -3,7 +3,7 @@
 typedef long long ll;
 using namespace std;
 
-const int _maxN = 100000;
+const int _maxN = 50000;
 
 struct hashS
 {
@@ -12,12 +12,22 @@ struct hashS
     int iS;
 
     ll hashT[_maxN];
+    ll powT[_maxN];
+
+    void powIni(string inp)
+    {
+        powT[0] = 1;
+        for(int i = 1; i < _maxN; i++)
+            powT[i] = (powT[i - 1] * _sP) % _lP;
+    }
+
     void iniP(string inp)
     {
         iS = inp.size();
         hashT[0] = int( inp[0] );
         for(int i = 1; i < iS; i++)
             hashT[i] = ( hashT[i - 1] * _sP + int( inp[i] ) ) % _lP;
+        powIni(inp);
     }
     void iniS(string inp)
     {
@@ -25,15 +35,7 @@ struct hashS
         hashT[iS-1] = int( inp[iS-1] );
         for(int i = iS-2; i >= 0; i--)
             hashT[i] = ( hashT[i + 1] * _sP + int( inp[i] ) ) % _lP;
-    }
-
-
-    ll pow( int n )
-    {
-        ll temp = 1;
-        for(int i = 0; i < n; i++)
-            temp *= _sP;
-        return temp;
+        powIni(inp);
     }
 
     ll hP(int a, int b)
@@ -41,7 +43,7 @@ struct hashS
         ll out = hashT[b], rmv;
 
         if( a - 1 >= 0 )
-            rmv = ( hashT[a-1] * pow(b + 1 - a) ) % _lP;
+            rmv = ( hashT[a-1] * powT[b + 1 - a] ) % _lP;
         else
             rmv = 0;
 
@@ -56,7 +58,7 @@ struct hashS
         ll out = hashT[a], rmv;
         
         if( b + 1 < iS )
-            rmv = ( hashT[ b+1 ] * pow(b + 1 - a) ) % _lP;
+            rmv = ( hashT[ b+1 ] * powT[b + 1 - a] ) % _lP;
         else
             rmv = 0;
         
