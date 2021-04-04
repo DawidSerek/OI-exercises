@@ -1,15 +1,6 @@
 #include<iostream>
 using namespace std;
 
-typedef long long ll;
-
-const int _maxN = 100000;
-
-const ll _lP = 1000000003;
-const int _sP = 31;
-
-ll sHash[_maxN];
-
 struct powerStruct
 {
     int vLimit = 1000000000;
@@ -41,27 +32,10 @@ struct powerStruct
     }
 };
 
-int hR( int a, int b ) //returns hash value from given range 
-{
-    powerStruct pow;
-    pow.setBase(_sP);
-
-    int out = sHash[a];
-    out -= ( sHash[b + 1] * pow.request( b - a + 1 ) ) % _lP;
-    if( out < 0 )
-        out += _lP;
-    return out;
-}
 
 int main()
 {
-    string inp;
-    cin >> inp;
-    
-    int inpS = inp.size() - 1;
-    sHash[ inpS ] = int( inp[inpS] );
-    for(int i = inpS - 1; i >= 0; i--)
-        sHash[i] += (sHash[i + 1] * _sP + inp[i]) % _lP;
-
-    cout << hR( 2,2 );
+    powerStruct pow;
+    pow.setBase(31);
+    cout << pow.request(3);
 }
