@@ -10,7 +10,7 @@ int main()
     for(int i = 1; i < 500000; i++)
         temp += to_string(i) + " ";
     ofstream myfile;
-    myfile.open ("example.txt");
+    myfile.open ("example123.txt");
     myfile << temp;
     myfile.close();
 }
