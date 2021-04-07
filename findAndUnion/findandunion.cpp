@@ -28,16 +28,28 @@ void u( int a, int b )
 
 int main()
 {
-    int n = 500000;
+    int n = 600000, z;
+    cin >> z;
 
     for(int i = 1; i < n; i++)
         fu[i] = i;
     
-    for(int i = 1; i < n - 1; i++)
-        u(i, i + 1);
+    for(int i = 0; i < z; i++)
+    {
+        char choose;
+        cin >> choose;
 
-    for(int i = 1; i < 5; i++)
-        cout << f(i) << " ";
-
+        int a, b;
+        if( choose == 'F' )
+        {
+            cin >> a;
+            cout << f(a) << " ";
+        }
+        else
+        {
+            cin >> a >> b;
+            u(a, b);
+        }
+    }
     return 0;
 }
