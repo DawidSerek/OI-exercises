@@ -12,24 +12,30 @@ struct hashS
     ll hashT[_maxN];
     ll pow[_maxN];
     string inp;
+    bool isP;
 
     void iniPow()
     {
+       
         pow[0] = 1;
         for(int i = 1; i < _maxN; i++)
             pow[i] = (pow[i-1] * _sP) % _lP;
     }
 
-    void iniP()
+    void iniS(string txt)
     {
+        inp = txt;
+        isP = false;
         int n = inp.size() - 1;
         hashT[n] = int( inp[n] );
         for(int i = n - 1; i >= 0; i--)
             hashT[i] = ( hashT[i + 1] * _sP + int(inp[i]) ) % _lP;
         iniPow();
     }
-    void iniS()
+    void iniP(string txt)
     {
+        inp = txt;
+        isP = true;
         int n = inp.size();
         hashT[0] = int( inp[0] );
         for(int i = 1; i < n; i++)
@@ -37,27 +43,58 @@ struct hashS
         iniPow();
     }
 
-    int findPR()
+    int findR(int a, int b)
     {
-        
+        if( !isP )
+        {
+            ll rmv = (hashT[b + 1] * pow[b + 1 - a]) % _lP;
+            if( b + 1 >= inp.size() ) rmv = 0;
+            ll out = hashT[a] - rmv;
+            if( out < 0 )
+                out += _lP;
+            return out;
+        }
+        else
+        {
+            ll rmv = 0;
+            if( a - 1 >= 0 ) rmv = (hashT[a - 1] * pow[b + 1 - a]) % _lP;
+            ll out = hashT[b] - rmv;
+            if( out < 0 )
+                out += _lP;
+            return out;
+        }
     }
-
-
 };
+
+
 
 int main()
 {
     string inp;
     cin >> inp;
 
-    hashS prefix;
-    prefix.inp = inp;
-    prefix.iniP();
-    
-    hashS sufix;
-    sufix.inp = inp;
-    sufix.iniS();
+    hashS pre, suf;
+    pre.iniP(inp);
+    suf.iniS(inp);
 
+    int out = 0;
+    for(int i = 1; i < inp.size() - 1; i++)
+    {
+        int start = 1, end = min( i, int(inp.size() - 1 - i) ), mid, tOut = 0;
 
-
+        while( start <= end )
+        {
+            mid = (start + end) / 2;
+            
+            if( pre.findR( i - mid , i) == suf.findR(i, i + mid ) )
+            {
+                tOut = mid;
+                start = mid + 1;
+            }
+            else
+                end = mid - 1;
+        }
+        out += tOut;
+    }
+    cout << out;
 }
