@@ -2,7 +2,7 @@
 using namespace std;
 
 typedef long long ll;
-const int _maxN = 15;
+const int _maxN = 100000;
 
 struct hashS
 {
@@ -68,6 +68,23 @@ struct hashS
 
 
 
+int binS(int i, bool isOdd, string inp, struct hashS *pre, struct hashS *suf)
+{
+    int start = 1, end = min( i, int(inp.size() - i) ), mid, tOut = 0;
+    while( start <= end )
+    {
+        mid = (start + end) / 2;
+        if( pre->findR( i - mid, i - 1 + isOdd) == suf->findR(i, i + mid - 1 + isOdd) )
+        {
+            tOut = mid;
+            start = mid + 1;
+        }
+        else
+            end = mid - 1;
+    }
+    return tOut;
+}
+
 int main()
 {
     string inp;
@@ -78,23 +95,11 @@ int main()
     suf.iniS(inp);
 
     int out = 0;
-    for(int i = 1; i < inp.size() - 1; i++)
+    /*
+    for(int i = 1; i < inp.size(); i++)
     {
-        int start = 1, end = min( i, int(inp.size() - 1 - i) ), mid, tOut = 0;
-
-        while( start <= end )
-        {
-            mid = (start + end) / 2;
-            
-            if( pre.findR( i - mid , i) == suf.findR(i, i + mid ) )
-            {
-                tOut = mid;
-                start = mid + 1;
-            }
-            else
-                end = mid - 1;
-        }
-        out += tOut;
-    }
+        out += binS(i, 1, inp, &pre, &suf);
+        out += binS(i, 0, inp, &pre, &suf);
+    }/**/
     cout << out;
 }
