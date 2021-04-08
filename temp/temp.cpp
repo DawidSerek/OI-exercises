@@ -11,6 +11,7 @@ int main()
         temp += to_string(i) + " ";
     ofstream myfile;
     myfile.open("example.txt");
+    myfile.open ("example123.txt");
     myfile << temp;
     myfile.close();
 }
