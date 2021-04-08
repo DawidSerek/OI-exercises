@@ -1,105 +1,63 @@
 #include<iostream>
-
-typedef long long ll;
 using namespace std;
 
-const int _maxN = 50000;
+typedef long long ll;
+const int _maxN = 15;
 
 struct hashS
 {
     const ll _sP = 31;
     const ll _lP = 1000000003;
-    int iS;
 
     ll hashT[_maxN];
-    ll powT[_maxN];
+    ll pow[_maxN];
+    string inp;
 
-    void powIni(string inp)
+    void iniPow()
     {
-        powT[0] = 1;
+        pow[0] = 1;
         for(int i = 1; i < _maxN; i++)
-            powT[i] = (powT[i - 1] * _sP) % _lP;
+            pow[i] = (pow[i-1] * _sP) % _lP;
     }
 
-    void iniP(string inp)
+    void iniP()
     {
-        iS = inp.size();
+        int n = inp.size() - 1;
+        hashT[n] = int( inp[n] );
+        for(int i = n - 1; i >= 0; i--)
+            hashT[i] = ( hashT[i + 1] * _sP + int(inp[i]) ) % _lP;
+        iniPow();
+    }
+    void iniS()
+    {
+        int n = inp.size();
         hashT[0] = int( inp[0] );
-        for(int i = 1; i < iS; i++)
-            hashT[i] = ( hashT[i - 1] * _sP + int( inp[i] ) ) % _lP;
-        powIni(inp);
-    }
-    void iniS(string inp)
-    {
-        int iS = inp.size();
-        hashT[iS-1] = int( inp[iS-1] );
-        for(int i = iS-2; i >= 0; i--)
-            hashT[i] = ( hashT[i + 1] * _sP + int( inp[i] ) ) % _lP;
-        powIni(inp);
+        for(int i = 1; i < n; i++)
+            hashT[i] = ( hashT[i - 1] * _sP + int(inp[i]) ) % _lP;
+        iniPow();
     }
 
-    ll hP(int a, int b)
+    int findPR()
     {
-        ll out = hashT[b], rmv;
-
-        if( a - 1 >= 0 )
-            rmv = ( hashT[a-1] * powT[b + 1 - a] ) % _lP;
-        else
-            rmv = 0;
-
-        out -= rmv;
-        if(out < 0)
-            out += _lP;
-
-        return out;
-    }
-    ll hS(int a, int b, int iS)
-    {
-        ll out = hashT[a], rmv;
         
-        if( b + 1 < iS )
-            rmv = ( hashT[ b+1 ] * powT[b + 1 - a] ) % _lP;
-        else
-            rmv = 0;
-        
-        out -= rmv;
-        if(out < 0)
-            out += _lP;
-
-        return out;
     }
+
+
 };
-
 
 int main()
 {
     string inp;
     cin >> inp;
 
-    hashS pref, suf;
-    pref.iniP(inp);
-    suf.iniS(inp);
+    hashS prefix;
+    prefix.inp = inp;
+    prefix.iniP();
+    
+    hashS sufix;
+    sufix.inp = inp;
+    sufix.iniS();
 
-    int out = 0;
-    for(int i = 0; i < inp.size(); i++)
-    {
-        int left = i - 1, right = i + 1;
-        while( left >= 0 && right < inp.size() )
-        {
-            if( pref.hP(left,i) == suf.hS(i,right, inp.size() ) )
-                out++;
-            left--;
-            right++;
-        }
-        left = i - 1, right = i;
-        while( left >= 0 && right < inp.size() )
-        {
-            if( pref.hP(left,i - 1) == suf.hS(i,right, inp.size() ) )
-                out++;
-            left--;
-            right++;
-        }
-    }
-    cout << out;
-    return 0;
+
+
 }
