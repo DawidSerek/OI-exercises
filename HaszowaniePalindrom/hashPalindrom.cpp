@@ -2,7 +2,7 @@
 using namespace std;
 
 typedef long long ll;
-const int _maxN = 500000;
+const int _maxN = 20;
 const ll _sP = 31;
 const ll _lP = 1000000003;
 
