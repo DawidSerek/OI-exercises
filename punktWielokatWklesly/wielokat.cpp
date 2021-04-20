@@ -1,6 +1,7 @@
 #include<iostream>
 using namespace std;
 
+typedef long long ll;
 const int _maxN = 500000;
 
 struct point
@@ -8,22 +9,32 @@ struct point
     int x,y;
 };
 
-int findZeroTrArea(point a, point b)
+ll findZeroTrArea(point a, point b)
 {
-    int rmvC = (a.x * a.y + b.x * b.y + (b.x-a.x)*(a.y-b.y))/2;
+    ll rmvC = (a.x * a.y + b.x * b.y + (b.x-a.x)*(a.y-b.y))/2;
     return a.y*b.x-rmvC;
 }
-
-int findTr(point a, point b, point c)
+ll isR(point a, point b, point c)
 {
-    int rmv = findZeroTrArea(a, c);
-    int out = findZeroTrArea(a, b) + findZeroTrArea(b, c);
-    return out - rmv;
+    ll rmv = findZeroTrArea(a, c);
+    ll out = findZeroTrArea(a, b) + findZeroTrArea(b, c);
+    out -= rmv;
+    if( out != 0 ) return out > 0;
+    return -1;
+}
+bool isDiv(point a, point b, point c, point d)
+{
+    if( isR(a,b,c) == -1 || isR(a,b,d) == -1 )
+        return false;
+    return isR(a,b,c) != isR(a,b,d);
+}
+int isCross(point a, point b, point c, point d)
+{
+    return isDiv(a,b,c,d) && isDiv(c,d,a,b);
 }
 
 point inp[_maxN];
 point q[_maxN];
-
 int main()
 {
     int n, z;
@@ -31,16 +42,27 @@ int main()
     for(int i = 0; i < n; i++)
         cin >> inp[i].x >> inp[i].y;
     cin >> z;
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < z; i++)
         cin >> q[i].x >> q[i].y;
     
-    point a, b,c;
-    a.x = 0;
-    a.y = 0;
-    b.x = 1;
-    b.y = 1;
-    c.x = 2;
-    c.y = 2;
-    cout << findTr(a,b,c);
-
+    for(int i = 0; i < z; i++)
+    {
+        point half;
+        half.x = q[i].x + 100000000;
+        half.y = q[i].y;
+        int temp = 0;
+        for(int j = 0; j < n; j++)
+        {
+            if( q[i].x != inp[j].x || q[i].y != inp[j].y )
+                temp += isCross( q[i], half, inp[j], inp[ (j+1)%n ] );
+            else
+            {
+                temp = 0;
+                break;
+            }
+        }
+        if(temp % 2 == 1) cout << "TAK";
+        else cout << "NIE";
+        cout << endl;
+    }
 }
