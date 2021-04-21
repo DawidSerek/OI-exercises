@@ -25,10 +25,10 @@ ll isR(point a, point b, point c)
 bool isDiv(point a, point b, point c, point d)
 {
     if( isR(a,b,c) == -1 || isR(a,b,d) == -1 )
-        return false;
+        return true;
     return isR(a,b,c) != isR(a,b,d);
 }
-int isCross(point a, point b, point c, point d)
+bool isCross(point a, point b, point c, point d)
 {
     return isDiv(a,b,c,d) && isDiv(c,d,a,b);
 }
@@ -49,18 +49,16 @@ int main()
     {
         point half;
         half.x = q[i].x + 100000000;
-        half.y = q[i].y;
+        half.y = q[i].y + 1;
         int temp = 0;
         for(int j = 0; j < n; j++)
-        {
-            if( q[i].x != inp[j].x || q[i].y != inp[j].y )
+            if( (q[i].x != inp[j].x || q[i].y != inp[j].y) && !isDiv( inp[j], inp[(j+1)%n], q[i],q[i] ) )
                 temp += isCross( q[i], half, inp[j], inp[ (j+1)%n ] );
             else
             {
                 temp = 0;
                 break;
             }
-        }
         if(temp % 2 == 1) cout << "TAK";
         else cout << "NIE";
         cout << endl;

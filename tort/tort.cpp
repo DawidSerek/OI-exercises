@@ -64,8 +64,7 @@ int main()
         if( findK(x,y,mid) >= k - 1 )
         {
             beg = mid;
-            if( findK(x,y,mid) == k - 1 )
-                out = min(out, mid);
+            out = mid;
         }
         else
             end = mid - 1;
