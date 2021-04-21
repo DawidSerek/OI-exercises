@@ -13,8 +13,8 @@ int y[_maxN];
 
 struct convInp
 {
-    vector <int> v;
-    vector <int> out;
+    vector <ll> v;
+    vector <ll> out;
     void ini(int n, int len)
     {
         out.push_back( v[0] );
@@ -28,12 +28,12 @@ struct convInp
 
 int findK(convInp x, convInp y, int mid)
 {
-    int yIt = 0, out = 0;
-    for(int xIt = 0; xIt <= n; xIt++)
+    int out = 0, yIt = y.out.size() - 1;
+    for(int xIt = 0; xIt < x.out.size(); xIt++)
     {
-        while( x.out[xIt] * y.out[n - yIt] > mid && yIt <= n )
-            yIt++;
-        out += yIt;
+        while( x.out[xIt] * y.out[yIt] >= mid && yIt >= 0 )
+            yIt--;
+        out += yIt + 1;
     }
     return out;
 }
@@ -43,7 +43,7 @@ int main()
     cin >> a >> b >> n >> k;
     
     convInp x, y;
-    int temp;
+    ll temp;
     for(int i = 0; i < n; i++)
     {
         cin >> temp;
@@ -57,17 +57,20 @@ int main()
     x.ini(n, a);
     y.ini(n, b);
 
-    ll beg = 0, end = a * b, mid, out = a*b;
-    while(beg < end)
+    for(int z = 16; z > 0; z--)
     {
-        mid = (beg+end)/2;
-        if( findK(x,y,mid) >= k - 1 )
+        ll beg = 0, end = a * b, mid, out = a*b;
+        while(beg <= end)
         {
-            beg = mid;
-            out = mid;
+            mid = (beg+end)/2;
+            if( findK(x,y,mid) <= (n+1) * (n+1) - z )
+            {
+                beg = mid + 1;
+                out = mid;
+            }
+            else
+                end = mid - 1;
         }
-        else
-            end = mid - 1;
+        cout << out << " ";
     }
-    cout << out;
 }
