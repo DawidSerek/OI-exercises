@@ -52,7 +52,7 @@ int main()
         half.y = q[i].y + 1;
         int temp = 0;
         for(int j = 0; j < n; j++)
-            if( (q[i].x != inp[j].x || q[i].y != inp[j].y) && !isDiv( inp[j], inp[(j+1)%n], q[i],q[i] ) )
+            if( !isDiv( inp[j], inp[(j+1)%n], q[i], q[i] ) )
                 temp += isCross( q[i], half, inp[j], inp[ (j+1)%n ] );
             else
             {
