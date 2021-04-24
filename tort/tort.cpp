@@ -31,7 +31,7 @@ int findK(convInp x, convInp y, int mid)
     int out = 0, yIt = y.out.size() - 1;
     for(int xIt = 0; xIt < x.out.size(); xIt++)
     {
-        while( x.out[xIt] * y.out[yIt] >= mid && yIt >= 0 )
+        while( x.out[xIt] * y.out[yIt] > mid && yIt >= 0 )
             yIt--;
         out += yIt + 1;
     }
@@ -59,6 +59,7 @@ int main()
 
     for(int z = 16; z > 0; z--)
     {
+        cout << "["<<z<<"]" << " ";
         ll beg = 0, end = a * b, mid, out = a*b;
         while(beg <= end)
         {
