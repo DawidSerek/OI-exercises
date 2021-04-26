@@ -1,53 +1,71 @@
 #include<iostream>
 using namespace std;
 
-const int _maxN = 20;
+typedef long long ll;
 
-int KMP[_maxN];
+struct hashS{
+    ll hashT[10000];
+    ll pow[10000];
+    int n;
+    const ll _sP = 31;
+    const ll _lP = 1000000003;
 
-void checkSec(int beg, string str)
-{
-    string newStr = "", key = "";
-    for(int i = 0; i < beg; i++)
-        key.push_back( str[i] );
-    for(int i = beg; i < str.size(); i++)
-        newStr.push_back( str[i] );
-    newStr = key + "$" + newStr;
-
-    for(int i = 1; i < newStr.size(); i++)
+    void ini(string inp)
     {
-        int temp = KMP[i-1];
-        while( newStr[temp] != newStr[i] && temp > 0 )
-            temp = KMP[temp];
-        if( newStr[temp] == newStr[i] )
-            temp++;
-        KMP[i] = temp;
+        n = inp.size();
+
+        hashT[0] = ll(inp[0]);
+        for(int i = 1; i < n; i++)
+            hashT[i] = ( hashT[i-1] * _sP + ll( inp[i] ) ) % _lP;
+        
+        pow[0] = 1;
+        for(int i = 1; i < n; i++)
+            pow[i] = (pow[i-1] * _sP) % _lP;
     }
 
-    for(int i = 0; i < newStr.size(); i++)
-        cout << newStr[i] << " ";
-    cout << endl;
-    for(int i = 0; i < newStr.size(); i++)
-        if( KMP[i] >= key.size() )
-            cout << "1 ";
-        else
-            cout << "0 ";
-    cout << endl;
+    int hashF( int a, int b )
+    {
+        ll out, rmv = 0;
+        out = hashT[b];
+        if( a > 0 ) rmv = (hashT[a-1] * pow[b-a+1]) % _lP;
 
-    for(int i = 0; i < _maxN; i++)
-        KMP[i] = 0;
+        if( out - rmv < 0 )
+            return out - rmv + _lP;
+        return out - rmv;
+    }
 
-}
+};
 
 int main()
 {
-    string inp;
-    cin >> inp;
-
-    for(int i = 1; i < inp.size(); i ++)
+    string inp = "ababbabbabbabbabababbababaaba";
+    for(int i = 1; i <= inp.size(); i++)
     {
-        checkSec(i, inp);
-    }
-    
+        string k ="";
+        for(int j = 0; j < i; j++)
+            k.push_back(inp[j]);
 
+        cout << inp << endl;
+
+        hashS key, word;
+        key.ini(k);
+        word.ini(inp);
+        ll kHash = key.hashF(0, k.size() - 1);
+
+        for(int j = 0; j < k.size(); j++)
+            cout << " ";
+        int temp = 0;
+        for(int j = k.size(); j < inp.size(); j++)
+        {
+            if( word.hashF( j, j + k.size()-1 ) == kHash )
+            {
+                cout << "1";
+                temp++;
+            }
+            else
+                cout << " ";
+        }
+        cout << endl;
+        cout << k.size() << " " << temp << " " << k.size() * temp << endl;
+    }
 }
