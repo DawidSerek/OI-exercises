@@ -38,10 +38,9 @@ struct hashS{
 
 int main()
 {
-    string inp = "ababbabbabbabbabababbaba";
+    //string inp = "ababbabbabbabbabababbaba";
     //string inp = "aaaaaaaaaaaaaaaaaaaa";
     //string inp = "abcdabaefghibjklaabmabnobaaa";
-    //
     string inp = "abbaabba";
     for(int i = 1; i < inp.size(); i++)
     {
