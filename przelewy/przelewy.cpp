@@ -14,12 +14,12 @@ ll out = 0;
 ll DFS(int p, int pp)
 {
     vis[p] = true;
-    ll dfsV = 0, temp = 0;
+    ll dfsV = 0, maxCst = 0;
     for(int i = 0; i < nei[p].size(); i++)
     {
         int s = nei[p][i];
-        if( !vis[s] ) temp = abs( DFS(s, p) );
-        out += temp;
+        if( !vis[s] ) maxCst = max( DFS(s, p) );
+        out += maxCst;
     }
     diff[pp] += diff[p];
     return diff[p];
