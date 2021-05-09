@@ -1,9 +1,11 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include<vector>
+#include<algorithm>
 using namespace std;
 
 const int _maxN = 5000;
 const int _maxK = 1000000;
-int n, m, k;
+int n, m;
 
 struct inpV
 {
@@ -52,6 +54,7 @@ void BFS(int s, int fIt, int lIt)
 
 int main()
 {
+    int k;
     cin >> n >> m >> k;
 
     int a, b;
@@ -94,7 +97,7 @@ int main()
 
     for(int i = 0; i < k; i++)
         if( inp[i].ans )
-            cout << "TAK" << endl;
+            printf( "%s", "TAK\n");
         else
-            cout << "NIE" << endl;
+            printf( "%s", "NIE\n");
 }

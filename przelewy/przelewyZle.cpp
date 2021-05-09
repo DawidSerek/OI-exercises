@@ -10,6 +10,13 @@ ll diff[_maxN + 1];
 vector <int> nei[_maxN + 1];
 bool vis[_maxN + 1];
 
+ll maxLL(ll a, ll b)
+{
+    if( a > b )
+        return a;
+    return b;
+}
+
 ll out = 0;
 ll DFS(int p, int pp)
 {
@@ -18,7 +25,7 @@ ll DFS(int p, int pp)
     for(int i = 0; i < nei[p].size(); i++)
     {
         int s = nei[p][i];
-        if( !vis[s] ) maxCst = max( DFS(s, p) );
+        if( !vis[s] ) maxCst = maxLL( maxCst, DFS(s, p) );
         out += maxCst;
     }
     diff[pp] += diff[p];
