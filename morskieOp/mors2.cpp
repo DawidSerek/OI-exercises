@@ -54,6 +54,9 @@ void BFS(int s, int fIt, int lIt)
 
 int main()
 {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
     int k;
     cin >> n >> m >> k;
 

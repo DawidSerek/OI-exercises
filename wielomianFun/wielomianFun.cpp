@@ -13,7 +13,7 @@ int main()
         cin >> t[i];
 
     int temp = t[0];
-    for(int i = 0; i <= n; i++)
+    for(int i = 0; i < n; i++)
     {
         cout << temp << " ";
         temp *= a;

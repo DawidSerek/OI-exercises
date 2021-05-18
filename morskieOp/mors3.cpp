@@ -60,6 +60,9 @@ void BFS(short beg) //updates paths for current constant number
 inpV inp[MAX_K + 1]; //stores input values
 int main()
 {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
     int n, m, k;
     cin >> n >> m >> k;
 
