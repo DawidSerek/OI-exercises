@@ -44,27 +44,27 @@ int main()
 
     for(int i = 0; i < n; i++)
         cin >> inp[i].x >> inp[i].y;
+    cout << vProd(inp[0],inp[1],inp[2]);
+    // sort(inp, inp+n, comp);
 
-    sort(inp, inp+n, comp);
-
-    vector <point> conH;
-    for(int i = 0; i < n; i++)
-    {
-        for(int p = conH.size() - 1; p >= 1 && vProd( conH[p-1], conH[p], inp[i] ) < 0; p--)
-            conH.pop_back();
-        conH.push_back(inp[i]);
-    }
-    for(int i = n-2; i >= 1; i--)
-    {
-        for(int p = conH.size() - 1; p >= 1 && vProd( conH[p-1], conH[p], inp[i] ) < 0; p--)
-            conH.pop_back();
-        conH.push_back(inp[i]);
-    }
-    for(int p = conH.size() - 1; p >= 1 && vProd( conH[p-1], conH[p], inp[0] ) < 0; p--)
-        conH.pop_back();
+    // vector <point> conH;
+    // for(int i = 0; i < n; i++)
+    // {
+    //     for(int p = conH.size() - 1; p >= 1 && vProd( conH[p-1], conH[p], inp[i] ) < 0; p--)
+    //         conH.pop_back();
+    //     conH.push_back(inp[i]);
+    // }
+    // for(int i = n-2; i >= 1; i--)
+    // {
+    //     for(int p = conH.size() - 1; p >= 1 && vProd( conH[p-1], conH[p], inp[i] ) < 0; p--)
+    //         conH.pop_back();
+    //     conH.push_back(inp[i]);
+    // }
+    // for(int p = conH.size() - 1; p >= 1 && vProd( conH[p-1], conH[p], inp[0] ) < 0; p--)
+    //     conH.pop_back();
 
 
-    for(int i = 0; i < conH.size(); i++)
-        cout << conH[i].x << " " << conH[i].y << "|";
-    return 0;
+    // for(int i = 0; i < conH.size(); i++)
+    //     cout << conH[i].x << " " << conH[i].y << "|";
+    // return 0;
 }
