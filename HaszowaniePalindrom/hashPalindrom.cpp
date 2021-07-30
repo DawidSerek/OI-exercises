@@ -13,7 +13,6 @@ bool isP;
 
 void iniPow()
 {
-
     powT[0] = 1;
     for(int i = 1; i < _maxN; i++)
         powT[i] = (powT[i-1] * _sP) % _lP;
