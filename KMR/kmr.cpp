@@ -3,16 +3,41 @@
 #include<map>
 using namespace std;
 
-const int _maxN = 16;
-const int _logN = 4 + 2;
+const int _maxN = 1000000;
+const int _logN = 20 + 2;
 
 vector <int> KMR[_logN];
 map < pair<int, int>, int> KMRR;
+int pow[_logN];
 
 #define SHIFT ( 1 << (i-1) )
 
+bool compKMR( int a, int b, int c, int d )
+{
+    if( a - b != c - d ) return a - b > c - d;
+    int diff = b - a + 1;
+
+    int beg = 0, end = _logN, mid, out;
+    while( beg <= end )
+    {
+        mid = (beg + end)/2;
+        if( pow[mid] * 2 < diff ) beg = mid + 1;
+        if( pow[mid] > diff ) end = mid - 1;
+        if( pow[mid] * 2 >= diff && pow[mid] <= diff )
+        {
+            out = mid;
+            break;
+        }
+    }
+    return KMR[out][a] == KMR[out][c] &&  KMR[out][ b - pow[out] + 1 ] == KMR[out][ d - pow[out] + 1 ];
+}
+
 int main()
 {
+    pow[0] = 1;
+    for(int i = 1; i < _logN; i++)
+        pow[i] = pow[i-1] * 2;
+
     string inp;
     cin >> inp;
     int n = inp.size();
@@ -36,12 +61,5 @@ int main()
             }
             KMR[i].push_back( KMRR[crrPair] );
         }
-
-    for(int i = 0; i < _logN; i++)
-    {
-        for(int j = 0; j < KMR[i].size(); j++)
-            cout << KMR[i][j] << " ";
-        cout << endl;
-    }
-        
+    cout << compKMR( 1, 2, 6, 7 );
 }
