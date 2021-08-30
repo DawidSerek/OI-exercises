@@ -1,47 +1,71 @@
 #include<iostream>
+#include<vector>
+#include<map>
 using namespace std;
 
 const int _alphS = 36;
+const int _maxN = 16 + 1;
 
-int oP[_alphS];
 int cnt[_alphS];
+int keys[_maxN];
 
-int charVal( char a )
+map < vector<bool>, int > keyG;
+
+int charInt( char a )
 {
-    int val;
-    if( a >= 'a' ) val = a - 'a' + 10;
-    else val = a - '0';
-    return val;
+    int nmb = int(a);
+    if( nmb >= 97 ) nmb -= 87;
+    else nmb -= 48;
+    return nmb;
 }
+
+void restartCnt()
+{
+    for(int i = 0; i < _alphS; i++) cnt[i] = 0;
+}
+
+void keyPrep( bool isPrePrep, string &S )
+{
+    vector <bool> temp;
+    
+    if( !isPrePrep )
+    {
+        for(int j = 0; j < _alphS; j++) temp.push_back( cnt[j] % 2 );
+        keyG[temp] = 0;
+    }
+
+    for(int i = 0; i < S.size(); i++)
+    {
+        temp.clear();
+        cnt[ charInt( S[i] ) ]++;
+        for(int j = 0; j < _alphS; j++) temp.push_back( cnt[j] % 2 );
+
+        if( isPrePrep ) keyG[ temp ] = _maxN;
+        else
+        {
+            keyG[temp] = min( keyG[ temp ], i + 1 );
+            keys[i] = keyG[temp];
+        } 
+    }
+}
+
+int solution(string &S)
+{
+    keyPrep( true, S );
+    restartCnt();
+    keyPrep( false, S );
+    restartCnt();
+
+    int out = 0;
+    for(int i = 0; i < S.size(); i++)
+        out = max( out, i - keys[i] + 1);
+    return out;
+}
+
 
 int main()
 {
     string inp;
     cin >> inp;
-    int n = inp.size();
-
-    for(int i = 0; i < n; i++)
-    {
-        int val = charVal(inp[i]);
-        cnt[ val ]++;
-        if( oP[val] == 0 ) oP[val] = i + 1;
-    }
-
-    for(int i = 0; i < _alphS; i++)
-        if( cnt[i] != 0 )
-            if( i >= 10 )
-                cout << char( 'a' + i - 10 ) << ":" << cnt[i] << endl;
-            else
-                cout << char( '0' + i ) << ":" << cnt[i] << endl;
-
-    // int out = 0;
-    // for(int i = 0; i < n; i++)
-    // {
-    //     cnt[ charVal(inp[i]) ]++;
-    //     int preDel = 0;
-    //     for(int j = 0; j < _alphS; j++)
-    //         if( cnt[j] % 2 == 1 ) preDel = max( preDel, oP[j] );
-    //     out = max( out, i + 1 - preDel );
-    // }
-    // cout << out;
+    cout << solution( inp );
 }

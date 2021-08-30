@@ -1,0 +1,12 @@
+jak znaleźć najlepszy podciąg spełniający założenia?
+
+* szukanie wśród wszystkich najlepszych kandydatów (dalsze rozwinięcie wymagane)
+\-> brak zrozumienia problemu w którym takich optymalnych kandydatów wyszczególnić
+
+* szukanie dla każdego prefiksu
+\-> trzeba znaleźć szybki sposób by dla takiego prefiksu znaleźć odpowiedź dot optymalnego podpref -> możemy określić dla danego prefiksu jakie nieparzystości występują dla danych liter -> w którymś z podprefiksów występuje ,,punkt przejśćia" gdzie wszędzie elementy są parzyste. Problemem jest to że po punkcie przejścia nadal może istnieć nieparzystość, więc nie ma wyszukiwania bin
+\-> ciekawą opcją byłoby utworzenie struktury która byłaby w stanie odpowiedzieć na pytanie w którym miejscu najbliżej lewej jesteśmy w stanie naprawić naszą obecną nieparzystość -> problemem znowu jest to, że w konsekwencji moglibyśmy utworzyć nową nieparzystość -> !!!! moglibyśmy tworzyć tunele kolejnych kombinacji żeby naprawić kolejne popsucia, a następnie wykorzystać skracanie ścieżek z fu 
+
+* szukanie zarówno dla prefiksu jak i sufiksu
+* wybieranie danych liter i w taki sposób rozwiązywanie w ~n
+...
