@@ -4,7 +4,7 @@
 using namespace std;
 
 const int _alphS = 36;
-const int _maxN = 16 + 1;
+const int _maxN = 100000 + 1;
 
 int cnt[_alphS];
 int keys[_maxN];
@@ -60,12 +60,4 @@ int solution(string &S)
     for(int i = 0; i < S.size(); i++)
         out = max( out, i - keys[i] + 1);
     return out;
-}
-
-
-int main()
-{
-    string inp;
-    cin >> inp;
-    cout << solution( inp );
 }
